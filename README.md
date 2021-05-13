@@ -1,5 +1,3 @@
-# info478-group2
-
 # Project Proposal
 ## Project Description
 The purpose of our project is to better understand what factors affect one’s ability to access healthcare. While this is a global issue, the data that we will be focusing on will be limited to the United States and their territories. External factors such as income, health services, education, transportation, social environment, and physical environment are known to be indicators of differing levels of access to healthcare. However, looking at the data and creating visualizations of historical surveys regarding healthcare access could better identify what is actually contributing to this disparity. As we analyze datasets and related work, we can formulate more in depth questions about healthcare access.
