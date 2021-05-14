@@ -1,5 +1,35 @@
+
 Characteristic,Any,Serious,Excluding,None
 < High School,3797,1516,2281,2614
 High School Graduate,8241,3337,4904,6150
 Some College/Associate's Degree,15265,6104,9161,10425
 College Graduate,13089,3774,9315,13936
+=======
+Geographic/Socioeconomic Characteristic,Total,Any Mental Illness,Serious Mental Illness,Any Mental Illness Excluding Serious Mental Illness,No Mental Illness
+TOTAL,"73,517","40,392","14,731","25,661","33,125"
+GEOGRAPHIC REGION,,,,,
+Northeast,"14,106","7,163","2,319","4,845","6,942"
+Midwest,"17,441","9,572","3,473","6,099","7,870"
+South,"25,444","14,140","5,315","8,825","11,304"
+West,"16,528","9,518","3,624","5,894","7,010"
+COUNTY TYPE,,,,,
+Large Metro,"38,995","20,661","7,122","13,538","18,335"
+Small Metro,"23,879","13,752","5,198","8,554","10,127"
+Nonmetro,"10,642","5,979","2,410","3,569","4,663"
+Urbanized,"4,818","2,582","1,050",1533,2235
+Less Urbanized,"4,763","2,741","1,123",1618,2023
+Completely Rural,"1,061",656,,235,405
+POVERTY LEVEL2,,,,,
+Less Than 100%,"11,667","8,045","3,504","4,541","3,623"
+100-199%,"12,943","7,941","3,297","4,645","5,002"
+200% or More,"48,688","24,268","7,873","16,396","24,420"
+EDUCATION,,,,,
+< High School,"6,411","3,797","1,516","2,281","2,614"
+High School Graduate,"14,391","8,241","3,337","4,904","6,150"
+Some College/Associate's Degree,"25,690","15,265","6,104","9,161","10,425"
+College Graduate,"27,025","13,098","3,774","9,315","13,936"
+HEALTH INSURANCE3,,,,,
+Private,"48,662","24,389","7,814","16,577","24,272"
+Medicaid/CHIP,"6,834","9,797","4,259","5,539","4,633"
+Other4,"20,390","10,291","3,824","6,467","10,099"
+No Coverage,"3,901","2,772","1,261",1511,1129
