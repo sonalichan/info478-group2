@@ -1,12 +1,15 @@
 library(dplyr)
-<<<<<<< HEAD
-librar
-table8_3 <- read.csv("./data/table8_3.xslx")
-=======
 library(tidyverse)
-table8_33 <- read.csv("table8_33.csv")
-table8_33 <- read.csv("table8_33_clean.csv")
-table10_2 <- read.csv("table10_2_clean.csv")
+library(ggplot2)
+library(data.table)
+library(reshape2)
+
 table8_18 <- read.csv("table8_18_clean.csv")
-table8_2 <- read.csv("table8_2_clean.csv")
->>>>>>> 00cae1937ad16b058ae663a7062c4a8f3ecf3190
+
+table8_18_clean<- table8_18 %>%
+  gather("Illness", "Frequency", -Characteristic)
+
+ggplot(data=table8_18_clean, aes(x=Illness, y=Frequency, fill=Characteristic, main = "hi")) +
+  geom_bar(stat="identity", position=position_dodge()) +
+  labs(title="Received Mental Health Services in Past Year by Education Levels",
+              x ="Amount of Illness", y = "Frequency (thousands)")
