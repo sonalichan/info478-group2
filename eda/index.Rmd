@@ -4,5 +4,20 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-
+source("analysis.R")
 ```
+
+
+```{r, echo = FALSE}
+line_plot
+```
+
+## Analysis for Line Plot
+This graph shows the number of people over 18 years old who experienced mental illness
+over the years of 2008 to 2018. As the data is shown based on the county type, it seems
+that a lot more people who live in larger cities experience mental illness, and this could
+be dependent on the stresses that come along with living in larger urban areas. However,
+the data could be skewing this way because those who live in smaller counties, where
+they ar completely urban or non metropolitan could be not accurately represented by this
+graph because they did not have access to record mental illness or a way to address these
+concerns with help due to their remote locations. 
