@@ -75,21 +75,11 @@ line_plot <- line_plot + scale_color_manual(name = "County Type",
                                                        "Urbanized Non Metropolitan",
                                                        "Less Urbanized Non Metropolitan",
                                                        "Completely Rural"),
-                                            values = c("large_metro" = "lightcoral",
-                                                       "small_metro" = "mediumseagreen",
-                                                       "urbanized_nonmetro" = "plum",
-                                                       "less_urbanized_nonmetro" = "orange",
-                                                       "completely_rural" = "lightskyblue"))
-
-## Analysis for Line Plot
-# This graph shows the number of people over 18 years old who experienced mental illness
-# over the years of 2008 to 2018. As the data is shown based on the county type, it seems
-# that a lot more people who live in larger cities experience mental illness, and this could
-# be dependent on the stresses that come along with living in larger urban areas. However,
-# the data could be skewing this way because those who live in smaller counties, where
-# they ar completely urban or non metropolitan could be not accurately represented by this
-# graph because they did not have access to record mental illness or a way to address these
-# concerns with help due to their remote locations. 
+                                            values = c("large_metro" = "#F8766D",
+                                                       "small_metro" = "#C49A00",
+                                                       "urbanized_nonmetro" = "#FB61D7",
+                                                       "less_urbanized_nonmetro" = "#00C094",
+                                                       "completely_rural" = "#A58AFF"))
 
 
 
@@ -128,7 +118,7 @@ table_8_2_ethnicity <- table_8_2 %>%
          "26_49",
          "over_50") %>% 
   filter(factor %in% c("White", 
-                       "Black of African American", 
+                       "Black or African American", 
                        "AIAN",
                        "NHOPI",
                        "Asian",
@@ -151,8 +141,39 @@ table_8_2_melt <- melt(table_8_2_flipped, id.vars = "age", variable.name = "ethn
 
 
 # Box Plot
-ggplot(data = table_8_2_melt, mapping = aes(x = age, y = value)) +
-  geom_boxplot(aes(color = ethnicity))
+box_plot <- ggplot(data = table_8_2_melt, mapping = aes(x = age, y = value, group = ethnicity)) +
+  geom_boxplot(aes(color = ethnicity)) + 
+  geom_jitter(width = 0.1, aes(color = ethnicity)) +
+  labs(
+    title = "Average Number of People with Any Mental Illness based on Ethnicity",
+    x = "Age Group",
+    y = "Number of People"
+  )
+
+# Change x axis labels and order
+box_plot <- box_plot + scale_x_discrete(limits = c("over_18","18_25","over_26", 
+                                                   "26_29", "over_50"),
+                                        labels = c("over_18" = "18+", "18_25" = "18-25",
+                                                   "over_26" = "26+", "26_29" = "26-29",
+                                                   "over_50" = "50+"))
+
+# Change legend
+box_plot <- box_plot + scale_color_manual(name = "Ethnicity",
+                                            labels = c("White",
+                                                       "Black or African American",
+                                                       "American Indian or Alaska Native",
+                                                       "Native Hawaiian or Other Pacific Islander",
+                                                       "Asian",
+                                                       "Two or More Races",
+                                                       "Hispanic or Latino"),
+                                            values = c("White" = "#F8766D",
+                                                       "Black or African American" = "#C49A00",
+                                                       "AIAN" = "#53B400",
+                                                       "NHOPI" = "#00C094",
+                                                       "Asian" = "#00B6EB",
+                                                       "Two or More Races" = "#A58AFF",
+                                                       "Hispanic or Latino" = "#FB61D7"))
+
 
 
 # Standard Deviations
