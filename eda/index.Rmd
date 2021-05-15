@@ -10,19 +10,8 @@ source("distribution.R")
 
 ## Distribution Graphics
 
-```{r reason_frequency_plot, echo=FALSE}
-table8_33 <-
-  read.csv("data/table8_33_clean.csv")[2:16,] %>%
-    rename("Reason" = ï..Reason, "2017" = X2017, "2018" = X2018)
-table8_33$Count <-
-  as.numeric(gsub(",","",table8_33$Count))
-
-reason_frequency_plot <-
-  ggplot(table8_33, aes(x = reorder(Reason, Count), y = Count, fill = Reason)) +
-    geom_col(colour = "black", fill = "#6279e1") +
-      coord_flip() +
-        labs(x = "Reason", y = "Frequency") +
-          theme(legend.position = "none")
+```{r, echo = FALSE, warning = FALSE}
+reason_frequency_plot
 ```
 
 Through this graph we can clearly see how much of an affect the cost of health care has played a roll in discouraging health care access in the United States. The Second most frequent reason for not accessing health care is interesting because it's a conscious decision likely made out of stubbornness, validated through others or the internet.

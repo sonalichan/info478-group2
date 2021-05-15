@@ -11,7 +11,7 @@ table_10 <- read.csv("../data/table10_2_clean.csv")
 # Clean Data 10.2
 table_10 <- table_10 %>%
   rename(
-    "factor" = "Geographic.Socioeconomic.Characteristic",
+    "factor" = "ï..Geographic.Socioeconomic.Characteristic",
     "2008" = "X2008",
     "2009" = "X2009",
     "2010" = "X2010",
@@ -84,7 +84,7 @@ line_plot <- line_plot + scale_color_manual(name = "County Type",
                                                        "small_metro" = "mediumseagreen",
                                                        "urbanized_nonmetro" = "plum",
                                                        "less_urbanized_nonmetro" = "orange",
-                                                       "completely_rural" = "lightskyblue"))
+                                                       "completely_rural" = "lightskyblue")
 
 
 # Load Data 8.2
@@ -114,7 +114,7 @@ table_8_2_ethnicity <- table_8_2 %>%
          "over_26" = Over.26.2017 + Over.26.2018,
          "26_49" = Aged.26.49.2017 + Aged.26.49.2018,
          "over_50" = Over.50.2017 + Over.50.2018) %>% 
-  rename("factor" = "Demographic.Characteristic") %>%
+  rename("factor" = "ï..Demographic.Characteristic") %>%
   select("factor", 
          "over_18",
          "18_25",
