@@ -6,6 +6,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 source("analysis.R")
+source("reason_frequency_plot.R")
 ```
 
 ## Distribution Graphics
