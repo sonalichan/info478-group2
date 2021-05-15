@@ -5,7 +5,7 @@ library(data.table)
 library(reshape2)
 
 # Table 8.3
-table8_3 <- read.csv("table8_3_clean.csv")
+table8_3 <- read.csv("../data/table8_3_clean.csv")
 
 table8_3 <- table8_3 %>% rename(
   "18" = "X18",
@@ -24,7 +24,7 @@ any <- ggplot(data=table8_3_clean, aes(x=Age, y=Frequency, fill=Characteristic))
 
 
 #Table 8.18
-table8_18 <- read.csv("table8_18_clean.csv")
+table8_18 <- read.csv("../data/table8_18_clean.csv")
 
 
 table8_18_clean<- table8_18 %>%

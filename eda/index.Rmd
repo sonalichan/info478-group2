@@ -4,5 +4,27 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-
+source("distribution.R")
 ```
+
+```{r, echo = FALSE, warning = FALSE}
+any
+```
+
+
+```{r, echo = FALSE, warning = FALSE}
+received
+```
+
+#### Analysis for Bar Plot
+These graphs show the number of people (in thousands) over 18 years old who have any mental illnesses compared to
+those who had received mental health services in 2017 and 2018 combined. Any refers to any mental illnesses reported,
+Serious refers to serious mental illnesses reported, Excluding reders to any mental illnesses excluding serious mental illnesses, and None refers to those with no mental illnesses recorded.
+The dataset was filtered through geographic/socioeconomic characteristics, so we
+chose to look at the relationship between education levels and those getting mental health help in the US. 
+The graphs generally show that more people reported mental illnesses than the amount of people getting
+help, but we can see that those with college or associates degrees have the largest amount of mental illnesses, yet
+they're the group with the most number of people that got help. We can also use this data by mapping it out
+and comparing it to areas of the US with high and low education levels to make inferences about where access to mental 
+health services are the highest and lowest.
+
