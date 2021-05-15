@@ -21,3 +21,5 @@ reason_frequency_plot <-
         labs(x = "Reason", y = "Frequency") +
           theme(legend.position = "none")
 ```
+
+Through this graph we can clearly see how much of an affect the cost of health care has played a roll in discouraging health care access in the United States. The Second most frequent reason for not accessing health care is interesting because it's a conscious decision likely made out of stubbornness, validated through others or the internet.
