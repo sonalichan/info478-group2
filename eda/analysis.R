@@ -75,22 +75,16 @@ line_plot <- line_plot + scale_color_manual(name = "County Type",
                                                        "Urbanized Non Metropolitan",
                                                        "Less Urbanized Non Metropolitan",
                                                        "Completely Rural"),
+                                            values = c("large_metro" = "#F8766D",
+                                                       "small_metro" = "#C49A00",
+                                                       "urbanized_nonmetro" = "#FB61D7",
+                                                       "less_urbanized_nonmetro" = "#00C094",
+                                                       "completely_rural" = "#A58AFF"))
                                             values = c("large_metro" = "lightcoral",
                                                        "small_metro" = "mediumseagreen",
                                                        "urbanized_nonmetro" = "plum",
                                                        "less_urbanized_nonmetro" = "orange",
                                                        "completely_rural" = "lightskyblue"))
-
-## Analysis for Line Plot
-# This graph shows the number of people over 18 years old who experienced mental illness
-# over the years of 2008 to 2018. As the data is shown based on the county type, it seems
-# that a lot more people who live in larger cities experience mental illness, and this could
-# be dependent on the stresses that come along with living in larger urban areas. However,
-# the data could be skewing this way because those who live in smaller counties, where
-# they ar completely urban or non metropolitan could be not accurately represented by this
-# graph because they did not have access to record mental illness or a way to address these
-# concerns with help due to their remote locations. 
-
 
 
 # Load Data 8.2
@@ -120,7 +114,7 @@ table_8_2_ethnicity <- table_8_2 %>%
          "over_26" = Over.26.2017 + Over.26.2018,
          "26_49" = Aged.26.49.2017 + Aged.26.49.2018,
          "over_50" = Over.50.2017 + Over.50.2018) %>% 
-  rename("factor" = "ï..Demographic.Characteristic") %>%
+  rename("factor" = "Demographic.Characteristic") %>%
   select("factor", 
          "over_18",
          "18_25",
@@ -128,7 +122,7 @@ table_8_2_ethnicity <- table_8_2 %>%
          "26_49",
          "over_50") %>% 
   filter(factor %in% c("White", 
-                       "Black of African American", 
+                       "Black or African American", 
                        "AIAN",
                        "NHOPI",
                        "Asian",
@@ -147,14 +141,42 @@ setDT(table_8_2_flipped, keep.rownames = TRUE)[]
 table_8_2_flipped <- table_8_2_flipped %>%
   rename("age" = "rn")
 
-table_8_2_melt <- melt(table_8_2_flipped, id.vars = "age", variable.name = "ethnicity", na.rm = TRUE)
+table_8_2_melt <- melt(table_8_2_flipped, id.vars = "age", variable.name = "ethnicity")
 
 
 # Box Plot
-ggplot(data = table_8_2_melt, mapping = aes(x = age, y = value / 100, group = ethnicity)) +
+box_plot <- ggplot(data = table_8_2_melt, mapping = aes(x = age, y = value, group = ethnicity)) +
   geom_boxplot(aes(color = ethnicity)) + 
-  geom_jitter(width = 0.1)
+  geom_jitter(width = 0.1, aes(color = ethnicity)) +
+  labs(
+    title = "Average Number of People with Any Mental Illness based on Ethnicity",
+    x = "Age Group",
+    y = "Number of People"
+  )
 
+# Change x axis labels and order
+box_plot <- box_plot + scale_x_discrete(limits = c("over_18","18_25","over_26", 
+                                                   "26_29", "over_50"),
+                                        labels = c("over_18" = "18+", "18_25" = "18-25",
+                                                   "over_26" = "26+", "26_29" = "26-29",
+                                                   "over_50" = "50+"))
+
+# Change legend
+box_plot <- box_plot + scale_color_manual(name = "Ethnicity",
+                                            labels = c("White",
+                                                       "Black or African American",
+                                                       "American Indian or Alaska Native",
+                                                       "Native Hawaiian or Other Pacific Islander",
+                                                       "Asian",
+                                                       "Two or More Races",
+                                                       "Hispanic or Latino"),
+                                            values = c("White" = "#F8766D",
+                                                       "Black or African American" = "#C49A00",
+                                                       "AIAN" = "#53B400",
+                                                       "NHOPI" = "#00C094",
+                                                       "Asian" = "#00B6EB",
+                                                       "Two or More Races" = "#A58AFF",
+                                                       "Hispanic or Latino" = "#FB61D7"))
 
 # Standard Deviations
 sd_over_18 <- sd(table_8_2_clean$over_18, na.rm = TRUE)
