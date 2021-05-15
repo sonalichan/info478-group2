@@ -3,6 +3,7 @@ title: "Exploratory Analysis"
 author: "Group 2: Sonali Chandra, John-Luke Dokupil, Samantha Chow"
 output: html_document
 ---
+```{r setup, include = FALSE}
 source("analysis.R")
 source("reason_frequency_plot.R")
 source("distribution.R")
@@ -14,6 +15,7 @@ source("distribution.R")
 reason_frequency_plot
 ```
 
+#### Analysis for frequency of reasons stated for lack of health care
 Through this graph we can clearly see how much of an affect the cost of health care has played a roll in discouraging health care access in the United States. The Second most frequent reason for not accessing health care is interesting because it's a conscious decision likely made out of stubbornness, validated through others or the internet.
 
 
@@ -52,5 +54,6 @@ health services are the highest and lowest.
 ```{r, echo = FALSE, warning = FALSE}
 line_plot
 ```
+
 #### Analysis for Recorded Presence of Mental Illness Among People 18 Years or Older
 This graph shows the number of people over 18 years old who experienced mental illness over the years of 2008 to 2018. As the data is shown based on the county type, it seems that a lot more people who live in larger cities experience mental illness, and this could be dependent on the stresses that come along with living in larger urban areas. However, the data could be skewing this way because those who live in smaller counties, where they are completely urban or non metropolitan could be not accurately represented by this graph because they did not have access to record mental illness or a way to address these concerns with help due to their remote locations. 
