@@ -80,7 +80,11 @@ line_plot <- line_plot + scale_color_manual(name = "County Type",
                                                        "urbanized_nonmetro" = "#FB61D7",
                                                        "less_urbanized_nonmetro" = "#00C094",
                                                        "completely_rural" = "#A58AFF"))
-
+                                            values = c("large_metro" = "lightcoral",
+                                                       "small_metro" = "mediumseagreen",
+                                                       "urbanized_nonmetro" = "plum",
+                                                       "less_urbanized_nonmetro" = "orange",
+                                                       "completely_rural" = "lightskyblue"))
 
 
 # Load Data 8.2
@@ -173,8 +177,6 @@ box_plot <- box_plot + scale_color_manual(name = "Ethnicity",
                                                        "Asian" = "#00B6EB",
                                                        "Two or More Races" = "#A58AFF",
                                                        "Hispanic or Latino" = "#FB61D7"))
-
-
 
 # Standard Deviations
 sd_over_18 <- sd(table_8_2_clean$over_18, na.rm = TRUE)
