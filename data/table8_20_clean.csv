@@ -1,0 +1,29 @@
+﻿Demographic/Socioeconomic Characteristic,Total,Any Mental Illness,Serious Mental Illness,Any Mental Ilness Excluding Serious Mental Illness,No Mental Illness
+TOTAL,7.7,25.9,44.6,20,3.4
+AGE GROUP,,,,,
+18-25,9.15,24.7,38.4,19.1,3.6
+26 or Older,7.45,26.15,46.45,20.2,3.4
+26-49,8.65,26.8,44.6,20.7,3.4
+50 or Older,6.45,25.3,50.25,19.55,3.4
+GENDER,,,,,
+Male,5.4,21.25,39.25,16.25,2.55
+Female,9.9,28.8,47.5,22.45,4.35
+HISPANIC ORIGIN AND RACE,,,,,
+Not Hispanic or Latino,8.3,26.85,45.5,20.8,3.8
+White,9.6,28.8,46.4,24.2,4.3
+Black or African American,4.5,16.9,41.15,9.9,2.25
+AIAN,7.55,,,,3.7
+NHOPI,4.65,,,,0.5
+Asian,4.15,16.55,,12.4,1.95
+Two or More Races,10.15,23.6,,14.6,5.1
+Hispanic or Latino,4.55,20.05,38.05,15.2,1.55
+HEALTH INSURANCE2,,,,,
+Private,7.9,27.5,45.3,22.8,3.75
+Medicaid/CHIP,10.3,30,50.1,21.75,3.65
+Other3,7.25,27.15,51.55,20.25,3.8
+No Coverage,4,14.75,26.75,10.05,1.1
+CURRENT EMPLOYMENT,,,,,
+Full-Time,7,23.05,38.4,20,3.25
+Part-Time,10.35,30.55,51.05,23.45,4.65
+Unemployed,8.2,22.65,38.05,16.5,2.8
+Other4,8.1,28.15,50.2,20.7,3.25
