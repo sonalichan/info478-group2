@@ -3,6 +3,7 @@ title: "Exploratory Analysis"
 author: "Group 2: Sonali Chandra, John-Luke Dokupil, Samantha Chow"
 output: html_document
 ---
+<<<<<<< Updated upstream
 ```{r setup, include = FALSE}
 source("analysis.R")
 source("reason_frequency_plot.R")
@@ -17,6 +18,10 @@ reason_frequency_plot
 
 #### Analysis for frequency of reasons stated for lack of health care
 Through this graph we can clearly see how much of an affect the cost of health care has played a roll in discouraging health care access in the United States. The Second most frequent reason for not accessing health care is interesting because it's a conscious decision likely made out of stubbornness, validated through others or the internet.
+=======
+
+```{r setup, include=FALSE}
+>>>>>>> Stashed changes
 
 
 ```{r, echo = FALSE, warning = FALSE}
