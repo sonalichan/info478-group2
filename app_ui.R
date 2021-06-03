@@ -104,18 +104,24 @@ introduction <- tabPanel(
     ))
 
 # ----------- Q1: JOHN-LUKE ---------------
-question_1 <- tabPanel(
-  "Mental Health Across the US",             #title of the page, what will appear as the tab name
+question_1 <- tabPanel("Mental Health Across the US",
   titlePanel("How are mental health services being utilized across the United States?"),
-  br(),
-  sidebarLayout(             
-    sidebarPanel( 
-      # left side of the page 
-      # insert widgets or text here -- their variable name(s), NOT the raw code
-    ),           
-    mainPanel(                # typically where you place your plots + texts
-      # insert chart and/or text here -- the variable name NOT the code
-    )))
+    br(),
+      sidebarLayout(             
+        sidebarPanel( 
+          selectInput("region_severity", 
+                      label = h4("Severity of Mental Illness"),
+                      choices = list("Any Mental Illness" = "any",
+                                 "Serious Mental Illness" = "serious",
+                                 "Any Mental Illness Excluding Serious" = "exclude_serious",
+                                 "No Mental Illness" = "none"),
+                      selected = "any")
+          ),           
+            mainPanel(
+              plotlyOutput("map")
+            )
+        )
+    )
 
 # ----------- Q2: SAMANTHA ---------------
 question_2 <- tabPanel(

@@ -111,15 +111,46 @@ server <- function(input, output) {
     if(input$region_severity == "any")
     {
       ggplot(state_shape) +
-        geom_polygon(
-          mapping = aes(x = long, y = lat, group = group, fill = any_mental_illness),
-          color = "white", # show state outlines
-          size = .1        # thinly stroked
-        ) +
-        coord_map() +# use a map-based coordinate system
-        scale_fill_continuous(low = "Blue", high = "Red") +
-        labs(fill = "any_mental_illness") +
-        blank_theme
+        geom_polygon(mapping = aes(x = long, y = lat, group = group, fill = any_mental_illness),
+                     color = "white", # show state outlines
+                     size = .1) +
+          coord_map() +
+            scale_fill_continuous(low = "Blue", high = "Red") +
+              labs(fill = "any_mental_illness") +
+                blank_theme
+    }
+    else if(input$region_severity == "serious")
+    {
+      ggplot(state_shape) +
+        geom_polygon(mapping = aes(x = long, y = lat, group = group, fill = serious_mental_illness),
+                     color = "white", # show state outlines
+                     size = .1) +
+          coord_map() +
+            scale_fill_continuous(low = "Blue", high = "Red") +
+              labs(fill = "serious_mental_illness") +
+                blank_theme
+    }
+    else if(input$region_severity == "exclude_serious")
+    {
+      ggplot(state_shape) +
+        geom_polygon(mapping = aes(x = long, y = lat, group = group, fill = any_mental_illness_excluding_serious_mental_illness),
+                     color = "white", # show state outlines
+                     size = .1) +
+          coord_map() +
+            scale_fill_continuous(low = "Blue", high = "Red") +
+              labs(fill = "any_mental_illness_excluding_serious_mental_illness") +
+                blank_theme
+    }
+    else if(input$region_severity == "none")
+    {
+      ggplot(state_shape) +
+        geom_polygon(mapping = aes(x = long, y = lat, group = group, fill = no_mental_illness),
+                     color = "white", # show state outlines
+                     size = .1) +
+          coord_map() +
+            scale_fill_continuous(low = "Blue", high = "Red") +
+              labs(fill = "no_mental_illness") +
+                blank_theme
     }
   })
   
