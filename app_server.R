@@ -8,20 +8,24 @@ library(tidyr)
 library(data.table)
 library(scales)
 
+library("maps")
+library("mapdata")
+
 # ----------- READ IN DATA ---------------
 
-inpatient_table <- read.csv("./data/table8_19_clean.csv")
-outpatient_table <- read.csv("./data/table8_20_clean.csv")
-prescription_table <- read.csv("./data/table8_21_clean.csv")
-professionals_table <- read.csv("./data/table8_52_a_clean.csv")
-types_combined <- read.csv("./data/types_of_service_combined.csv")
-table8_33 <- read.csv("./data/table8_33_clean.csv")[2:16,] %>%
-  rename("2017" = X2017, "2018" = X2018)
+inpatient_table <- read.csv("./data/table8_19_clean.csv", fileEncoding="UTF-8-BOM")
+outpatient_table <- read.csv("./data/table8_20_clean.csv", fileEncoding="UTF-8-BOM")
+prescription_table <- read.csv("./data/table8_21_clean.csv", fileEncoding="UTF-8-BOM")
+professionals_table <- read.csv("./data/table8_52_a_clean.csv", fileEncoding="UTF-8-BOM")
+types_combined <- read.csv("./data/types_of_service_combined.csv" ,fileEncoding="UTF-8-BOM")
+table8_33 <- read.csv("./data/table8_33_clean.csv", fileEncoding="UTF-8-BOM")[2:16,]
+table8_18 <- read.csv("data/table8_18_clean.csv", fileEncoding="UTF-8-BOM")
 
 
 # ----------- CLEAN DATA ---------------
 
 # Reason Frequency Bar Chart
+table8_33 <- rename(table8_33, "2017" = X2017, "2018" = X2018)
 table8_33$Count <- as.numeric(gsub(",","",table8_33$Count))
 
 
@@ -46,6 +50,32 @@ professionals_table <- professionals_table %>%
                                      "Herbalist, Chiropractor, Acupuncturist, or Massage Therapist"))
 professionals_table$over_18 <- as.numeric(gsub(",", "", professionals_table$over_18))
 
+# Mental Illness by Region Chart
+regional_table <- 
+  table8_18[3:6,] %>% 
+    rename("region" = X, 
+           "any_mental_illness" = Any.Mental.Illness,
+           "serious_mental_illness" = Serious.Mental.Illness,
+           "any_mental_illness_excluding_serious_mental_illness" = Any.Mental.Illness.Excluding.Serious.Mental.Illness,
+           "no_mental_illness" = No.Mental.Illness,
+           "total" = Total)
+regional_table$any_mental_illness <- as.numeric(gsub(",","", regional_table$any_mental_illness))
+regional_table$serious_mental_illness <- as.numeric(gsub(",","", regional_table$serious_mental_illness))
+regional_table$any_mental_illness_excluding_serious_mental_illness <- as.numeric(gsub(",","", regional_table$any_mental_illness_excluding_serious_mental_illness))
+regional_table$no_mental_illness <- as.numeric(gsub(",","", regional_table$no_mental_illness))
+regional_table$total <- as.numeric(gsub(",","", regional_table$total))
+
+state_df <- data.frame("state" = c("alabama", "alaska", "arizona", "arkansas", "california", "colorado", "connecticut", "delaware", "florida", "georgia", "hawaii", "idaho", "illinois", "indiana", "iowa", "kansas", "kentucky", "louisiana", "maine", "maryland", "massachusetts", "michigan", "minnesota", "mississippi", "missouri", "montana", "nebraska", "nevada", "new hampshire", "new jersey", "new mexico", "new york", "north carolina", "north dakota", "ohio", "oklahoma", "oregon", "pennsylvania", "rhode island", "south carolina", "south dakota", "tennessee", "texas", "utah", "vermont", "virginia", "washington", "west virginia", "wisconsin", "wyoming"),
+                       "region" = c("South", "West", "West", "South", "West", "West", "Northeast", "South", "South", "South", "West", "West", "Midwest", "Midwest", "Midwest", "Midwest", "South", "South", "Northeast", "South", "Northeast", "Midwest", "Midwest", "South", "Midwest", "West", "Midwest", "West", "Northeast", "Northeast", "West", "Northeast", "South", "Midwest", "Midwest", "South", "West", "Northeast", "Northeast", "South", "Midwest", "South", "South", "West", "Northeast", "South", "West", "South", "Midwest", "West"))
+
+regional_table <- 
+  left_join(regional_table, state_df, by = "region") %>% 
+    rename("regions" = region, "region" = state)
+
+state_shape <- 
+  map_data("state") %>%
+    left_join(regional_table, by = "region")
+
 
 
 # ----------- DEFINE THE SERVER ---------------
@@ -63,7 +93,36 @@ server <- function(input, output) {
         y = "Frequency") +
       theme(legend.position = "none")
   })
-
+  
+  # Regional Map
+  blank_theme <- theme_bw() +
+    theme(
+      axis.line = element_blank(),        # remove axis lines
+      axis.text = element_blank(),        # remove axis labels
+      axis.ticks = element_blank(),       # remove axis ticks
+      axis.title = element_blank(),       # remove axis titles
+      plot.background = element_blank(),  # remove gray background
+      panel.grid.major = element_blank(), # remove major grid lines
+      panel.grid.minor = element_blank(), # remove minor grid lines
+      panel.border = element_blank()      # remove border around plot
+    )
+  
+  output$map <- renderPlotly({
+    if(input$region_severity == "any")
+    {
+      ggplot(state_shape) +
+        geom_polygon(
+          mapping = aes(x = long, y = lat, group = group, fill = any_mental_illness),
+          color = "white", # show state outlines
+          size = .1        # thinly stroked
+        ) +
+        coord_map() +# use a map-based coordinate system
+        scale_fill_continuous(low = "Blue", high = "Red") +
+        labs(fill = "any_mental_illness") +
+        blank_theme
+    }
+  })
+  
   # Service Type Bar Chart
   output$bar_chart <- renderPlotly({
     
