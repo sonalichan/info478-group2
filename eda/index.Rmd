@@ -1,0 +1,64 @@
+---
+title: "Exploratory Analysis"
+author: "Group 2: Sonali Chandra, John-Luke Dokupil, Samantha Chow"
+output: html_document
+---
+<<<<<<< Updated upstream
+```{r setup, include = FALSE}
+source("analysis.R")
+source("reason_frequency_plot.R")
+source("distribution.R")
+```
+
+## Distribution Graphics
+
+```{r, echo = FALSE, warning = FALSE}
+reason_frequency_plot
+```
+
+#### Analysis for frequency of reasons stated for lack of health care
+Through this graph we can clearly see how much of an affect the cost of health care has played a roll in discouraging health care access in the United States. The Second most frequent reason for not accessing health care is interesting because it's a conscious decision likely made out of stubbornness, validated through others or the internet.
+=======
+
+```{r setup, include=FALSE}
+>>>>>>> Stashed changes
+
+
+```{r, echo = FALSE, warning = FALSE}
+box_plot
+```
+
+#### Analysis for Average Number of People with Any Mental Illness based on Ethnicity
+This graph shows the number of people who have reported any occurrence of mental illness, based on age group and ethnicity. The points shown on the graph are organized by age group, and show the exact number of people who have had any mental illness, where the ethnicity groupings are based on colors. The box plots display an average count across all the age groups, and the ethnicities are also represented by colors. From this graph, there are a high number of people who are White that have mental illness compared to the other ethnicities, and this could be an indication of the amount of health care access that everyone has. The dramatic difference between this ethnicity and the other ones shown could be because of the imbalance of representation from the data collected, or maybe the willingness to admit mental illness or disclose sensitive health information.
+
+
+## Relationship Graphics
+
+```{r, echo = FALSE, warning = FALSE}
+any
+```
+
+
+```{r, echo = FALSE, warning = FALSE}
+received
+```
+
+#### Analysis for Any Mental Illness and Received Mental Services Among People 18 Years or Older
+These graphs show the number of people (in thousands) over 18 years old who have any mental illnesses compared to
+those who had received mental health services in 2017 and 2018 combined. Any refers to any mental illnesses reported,
+Serious refers to serious mental illnesses reported, Excluding reders to any mental illnesses excluding serious mental illnesses, and None refers to those with no mental illnesses recorded.
+The dataset was filtered through geographic/socioeconomic characteristics, so we
+chose to look at the relationship between education levels and those getting mental health help in the US. 
+The graphs generally show that more people reported mental illnesses than the amount of people getting
+help, but we can see that those with college or associates degrees have the largest amount of mental illnesses, yet
+they're the group with the most number of people that got help. We can also use this data by mapping it out
+and comparing it to areas of the US with high and low education levels to make inferences about where access to mental 
+health services are the highest and lowest.
+
+
+```{r, echo = FALSE, warning = FALSE}
+line_plot
+```
+
+#### Analysis for Recorded Presence of Mental Illness Among People 18 Years or Older
+This graph shows the number of people over 18 years old who experienced mental illness over the years of 2008 to 2018. As the data is shown based on the county type, it seems that a lot more people who live in larger cities experience mental illness, and this could be dependent on the stresses that come along with living in larger urban areas. However, the data could be skewing this way because those who live in smaller counties, where they are completely urban or non metropolitan could be not accurately represented by this graph because they did not have access to record mental illness or a way to address these concerns with help due to their remote locations. 
