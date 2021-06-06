@@ -209,11 +209,24 @@ question_3 <- tabPanel(
     sidebarPanel( 
       # left side of the page 
       # insert widgets or text here -- their variable name(s), NOT the raw code
-    ),           
-    mainPanel(                # typically where you place your plots + texts
+      selectInput("illness", label = h4("Severity of Mental Illness"),
+                  choices = list("Any Mental Illness" = "any",
+                                 "Serious Mental Illness" = "serious",
+                                 "Any Mental Illness Excluding Serious" = "exclude_serious",
+                                 "No Mental Illness" = "none"),
+                  selected = "any"),
+      radioButtons("age", label = h4("Age Group"),
+                   choices = list("18-25" = "18.25",
+                                  "26 or Older" = "26",
+                                  "26-49" = "26.49",
+                                  "50 or Older" = "50"),
+                   selected = "18.25")
+    ),        
+    mainPanel(                
+      # typically where you place your plots + texts
       # insert chart and/or text here -- the variable name NOT the code
+      plotlyOutput("dem_bar_chart")
     )))
-
 # ----------- CONCLUSION: SONALI ---------------
 conclusion <- tabPanel(
   "Conclusion / Sources",             #title of the page, what will appear as the tab name

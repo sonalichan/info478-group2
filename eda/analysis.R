@@ -11,7 +11,11 @@ table_10 <- read.csv("../data/table10_2_clean.csv")
 # Clean Data 10.2
 table_10 <- table_10 %>%
   rename(
+<<<<<<< Updated upstream
     "factor" = "ï..Geographic.Socioeconomic.Characteristic",
+=======
+    "factor" = "Geographic.Socioeconomic.Characteristic",
+>>>>>>> Stashed changes
     "2008" = "X2008",
     "2009" = "X2009",
     "2010" = "X2010",
@@ -75,16 +79,34 @@ line_plot <- line_plot + scale_color_manual(name = "County Type",
                                                        "Urbanized Non Metropolitan",
                                                        "Less Urbanized Non Metropolitan",
                                                        "Completely Rural"),
+<<<<<<< Updated upstream
                                             values = c("large_metro" = "#F8766D",
                                                        "small_metro" = "#C49A00",
                                                        "urbanized_nonmetro" = "#FB61D7",
                                                        "less_urbanized_nonmetro" = "#00C094",
                                                        "completely_rural" = "#A58AFF"))
+=======
+>>>>>>> Stashed changes
                                             values = c("large_metro" = "lightcoral",
                                                        "small_metro" = "mediumseagreen",
                                                        "urbanized_nonmetro" = "plum",
                                                        "less_urbanized_nonmetro" = "orange",
+<<<<<<< Updated upstream
                                                        "completely_rural" = "lightskyblue")
+=======
+                                                       "completely_rural" = "lightskyblue"))
+
+## Analysis for Line Plot
+# This graph shows the number of people over 18 years old who experienced mental illness
+# over the years of 2008 to 2018. As the data is shown based on the county type, it seems
+# that a lot more people who live in larger cities experience mental illness, and this could
+# be dependent on the stresses that come along with living in larger urban areas. However,
+# the data could be skewing this way because those who live in smaller counties, where
+# they ar completely urban or non metropolitan could be not accurately represented by this
+# graph because they did not have access to record mental illness or a way to address these
+# concerns with help due to their remote locations. 
+
+>>>>>>> Stashed changes
 
 
 # Load Data 8.2
@@ -122,7 +144,11 @@ table_8_2_ethnicity <- table_8_2 %>%
          "26_49",
          "over_50") %>% 
   filter(factor %in% c("White", 
+<<<<<<< Updated upstream
                        "Black or African American", 
+=======
+                       "Black of African American", 
+>>>>>>> Stashed changes
                        "AIAN",
                        "NHOPI",
                        "Asian",
@@ -141,6 +167,7 @@ setDT(table_8_2_flipped, keep.rownames = TRUE)[]
 table_8_2_flipped <- table_8_2_flipped %>%
   rename("age" = "rn")
 
+<<<<<<< Updated upstream
 table_8_2_melt <- melt(table_8_2_flipped, id.vars = "age", variable.name = "ethnicity")
 
 
@@ -177,6 +204,16 @@ box_plot <- box_plot + scale_color_manual(name = "Ethnicity",
                                                        "Asian" = "#00B6EB",
                                                        "Two or More Races" = "#A58AFF",
                                                        "Hispanic or Latino" = "#FB61D7"))
+=======
+table_8_2_melt <- melt(table_8_2_flipped, id.vars = "age", variable.name = "ethnicity", na.rm = TRUE)
+
+
+# Box Plot
+ggplot(data = table_8_2_melt, mapping = aes(x = age, y = value / 100, group = ethnicity)) +
+  geom_boxplot(aes(color = ethnicity)) + 
+  geom_jitter(width = 0.1)
+
+>>>>>>> Stashed changes
 
 # Standard Deviations
 sd_over_18 <- sd(table_8_2_clean$over_18, na.rm = TRUE)

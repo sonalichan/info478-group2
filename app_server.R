@@ -13,16 +13,34 @@ library("mapdata")
 
 # ----------- READ IN DATA ---------------
 
+<<<<<<< HEAD
+=======
+# ----------- SAMANTHA -------------------
+>>>>>>> main
 inpatient_table <- read.csv("./data/table8_19_clean.csv", fileEncoding="UTF-8-BOM")
 outpatient_table <- read.csv("./data/table8_20_clean.csv", fileEncoding="UTF-8-BOM")
 prescription_table <- read.csv("./data/table8_21_clean.csv", fileEncoding="UTF-8-BOM")
 professionals_table <- read.csv("./data/table8_52_a_clean.csv", fileEncoding="UTF-8-BOM")
+<<<<<<< HEAD
 types_combined <- read.csv("./data/types_of_service_combined.csv" ,fileEncoding="UTF-8-BOM")
 table8_33 <- read.csv("./data/table8_33_clean.csv", fileEncoding="UTF-8-BOM")[2:16,]
 table8_18 <- read.csv("data/table8_18_clean.csv", fileEncoding="UTF-8-BOM")
+=======
+types_combined <- read.csv("./data/types_of_service_combined.csv", fileEncoding="UTF-8-BOM")
+table8_33 <- read.csv("./data/table8_33_clean.csv", fileEncoding="UTF-8-BOM")[2:16,] %>%
+  rename("2017" = X2017, "2018" = X2018)
+# ----------------------------------------
+>>>>>>> main
 
+# ----------- SONALI ---------------------
+demographic_mental_illness <- read.csv("./data/table8_7_b.csv", fileEncoding="UTF-8-BOM")
+dem_df <- data.frame()
 
-# ----------- CLEAN DATA ---------------
+# ----------------------------------------
+
+# ----------- CLEAN DATA -----------------
+
+# ----------- SAMANTHA -------------------
 
 # Reason Frequency Bar Chart
 table8_33 <- rename(table8_33, "2017" = X2017, "2018" = X2018)
@@ -50,6 +68,7 @@ professionals_table <- professionals_table %>%
                                      "Herbalist, Chiropractor, Acupuncturist, or Massage Therapist"))
 professionals_table$over_18 <- as.numeric(gsub(",", "", professionals_table$over_18))
 
+<<<<<<< HEAD
 # Mental Illness by Region Chart
 regional_table <- 
   table8_18[3:6,] %>% 
@@ -76,12 +95,53 @@ state_shape <-
   map_data("state") %>%
     left_join(regional_table, by = "region")
 
+=======
+# ---------------------------------------------
+
+# ----------- SONALI --------------------------
+demographic_mental_illness <- demographic_mental_illness %>%
+  rename(
+    "dem_char" = "Demographic.Characteristic",
+    "any_2017" = "Any.2017",
+    "any_2018" = "Any.2018",
+    "serious_2017" = "Serious.2017",
+    "serious_2018" = "Serious.2018",
+    "excluding_2017" = "Excluding.2017",
+    "excluding_2018" = "Excluding.2018",
+    "none_2017" = "None.2017",
+    "none_2018" = "None.2018"
+  ) %>%
+  slice(-c(1:6)) %>%
+  filter(dem_char %in% c("TOTAL",
+                         "18-25",
+                         "26 or Older",
+                         "26-49",
+                         "50 or Older",
+                         "Not Hispanic or Latino",
+                         "White",
+                         "Black",
+                         "AIAN",
+                         "NHOPI",
+                         "Asian",
+                         "Two or More Races",
+                         "Hispanic or Latino"))
+demographic_mental_illness$none_2017 <- as.numeric(gsub("a", "", demographic_mental_illness$none_2017))
+
+# ---------------------------------------------
+
+dem_df_flipped <- as.data.frame(t(demographic_mental_illness))
+dem_df_flipped <- dem_df_flipped %>%
+  filter(dem_char %in% c("any_2017", "any_2018",
+                          "serious_2017", "serious_2018",
+                          "excluding_2017", "excluding_2018",
+                          "none_2017", "none_2018"))
 
 
 # ----------- DEFINE THE SERVER ---------------
 
 server <- function(input, output) {
   
+#--------------- SAMANTHA ---------------------
   # Reason Frequency Bar Chart
   output$reason_frequency <- renderPlotly({
     ggplot(table8_33, aes(x = reorder(Reason, Count), y = Count, fill = Reason)) +
@@ -227,5 +287,67 @@ server <- function(input, output) {
             type = 'pie') %>% 
       layout(title = "Types of Professionals Seen") 
   })
+# -----------------------------------------------------
   
+# ------------------ SONALI ---------------------------
+  
+  # Service Type Bar Chart
+  output$dem_bar_chart <- renderPlotly({
+    
+    if (input$illness == "Any Mental Illness") {
+      dem_df <- demographic_mental_illness %>%
+        select("dem_char",
+               "any_2017",
+               "any_2018")
+    } else if (input$illness == "Serious Mental Illnesses") {
+      dem_df <- demographic_mental_illness %>%
+        select("dem_char",
+               "serious_2017",
+               "serious_2018")
+    } else if (input$illness == "Any Mental Illnesses Excluding Serious") {
+      dem_df <- demographic_mental_illness %>%
+        select("dem_char",
+               "excluding_2017",
+               "excluding_2018")
+    } else if (input$illness == "No Mental Illnesses") {
+      dem_df <- demographic_mental_illness %>%
+        select("dem_char",
+               "none_2017",
+               "none_2018")
+    }
+    
+    
+    if (input$age == "18.25") {
+      dem_df <- dem_df %>%
+        filter(dem_df$dem_char == "18-25")
+    } else if (input$age == "26") {
+      dem_df <- dem_df %>%
+        filter(dem_df$dem_char == "26 or Older")
+    } else if (input$age == "26.49") {
+      dem_df <- dem_df %>%
+        filter(dem_df$dem_char == "26-49")
+    } else if (input$age == "50") {
+      dem_df <- dem_df %>%
+        filter(dem_df$dem_char == "50 or Older")
+    }
+    
+    dem_df_flipped <- as.data.frame(t(dem_df))
+    setDT(dem_df_flipped, keep.rownames = TRUE)[]
+    dem_df_flipped <- dem_df_flipped %>%
+      filter(rn %in% c("Not Hispanic or Latino", "White",
+                                 "AIAN", "NHOPI",
+                                 "Asian", "Two or More Races",
+                                 "Hispanic or Latino"))
+    dem_df_flipped$V1 <- as.numeric(dem_df_flipped$V1)
+    
+    plotted <- ggplot(dem_df_flipped, aes(x = rn, y = V1)) +
+      geom_bar(stat = "identity", fill = "#9468bd") +
+      labs(
+        title = "Percentage of Service Usage based on Mental Illness Severity",
+        x = "Service Type",
+        y = "Percentage of Usage (%)") +
+      ylim(0, 100) 
+    plotted <- ggplotly(plotted)
+  })
+# -----------------------------------------------------
 }
