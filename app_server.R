@@ -7,9 +7,9 @@ library(shiny)
 library(tidyr)
 library(data.table)
 library(scales)
+library(reshape2)
 library("maps")
 library("mapdata")
-
 
 # ----------- READ IN DATA ---------------
 
@@ -25,7 +25,6 @@ table8_33 <- read.csv("./data/table8_33_clean.csv", fileEncoding="UTF-8-BOM")[2:
 
 # ----------- SONALI ---------------------
 demographic_mental_illness <- read.csv("./data/table8_7_b.csv", fileEncoding="UTF-8-BOM")
-dem_df <- data.frame()
 
 # ----------------------------------------
 
@@ -120,13 +119,7 @@ demographic_mental_illness <- demographic_mental_illness %>%
     "none_2017" = "None.2017",
     "none_2018" = "None.2018"
   ) %>%
-  slice(-c(1:6)) %>%
-  filter(dem_char %in% c("TOTAL",
-                         "18-25",
-                         "26 or Older",
-                         "26-49",
-                         "50 or Older",
-                         "Not Hispanic or Latino",
+  filter(dem_char %in% c("Not Hispanic or Latino",
                          "White",
                          "Black",
                          "AIAN",
@@ -134,17 +127,17 @@ demographic_mental_illness <- demographic_mental_illness %>%
                          "Asian",
                          "Two or More Races",
                          "Hispanic or Latino"))
+demographic_mental_illness$any_2017 <- as.numeric(gsub("a", "", demographic_mental_illness$any_2017))
+demographic_mental_illness$any_2018 <- as.numeric(gsub("a", "", demographic_mental_illness$any_2018))
+demographic_mental_illness$serious_2017 <- as.numeric(gsub("a", "", demographic_mental_illness$serious_2017))
+demographic_mental_illness$serious_2018 <- as.numeric(gsub("a", "", demographic_mental_illness$serious_2018))
+demographic_mental_illness$excluding_2017 <- as.numeric(gsub("a", "", demographic_mental_illness$excluding_2017))
+demographic_mental_illness$excluding_2018 <- as.numeric(gsub("a", "", demographic_mental_illness$excluding_2018))
 demographic_mental_illness$none_2017 <- as.numeric(gsub("a", "", demographic_mental_illness$none_2017))
+demographic_mental_illness$none_2018 <- as.numeric(gsub("a", "", demographic_mental_illness$none_2018))
+
 
 # ---------------------------------------------
-
-#dem_df_flipped <- as.data.frame(t(demographic_mental_illness))
-#dem_df_flipped <- dem_df_flipped %>%
- # filter(dem_char %in% c("any_2017", "any_2018",
-#                          "serious_2017", "serious_2018",
-            #              "excluding_2017", "excluding_2018",
-       #                   "none_2017", "none_2018"))
-
 
 # ----------- DEFINE THE SERVER ---------------
 
@@ -365,59 +358,41 @@ server <- function(input, output) {
   # Service Type Bar Chart
   output$dem_bar_chart <- renderPlotly({
     
-    if (input$illness == "Any Mental Illness") {
+    if (input$illness == "any") {
       dem_df <- demographic_mental_illness %>%
         select("dem_char",
                "any_2017",
                "any_2018")
-    } else if (input$illness == "Serious Mental Illnesses") {
+    } else if (input$illness == "serious") {
       dem_df <- demographic_mental_illness %>%
         select("dem_char",
                "serious_2017",
                "serious_2018")
-    } else if (input$illness == "Any Mental Illnesses Excluding Serious") {
+    } else if (input$illness == "excluding") {
       dem_df <- demographic_mental_illness %>%
         select("dem_char",
                "excluding_2017",
                "excluding_2018")
-    } else if (input$illness == "No Mental Illnesses") {
+    } else if (input$illness == "none") {
       dem_df <- demographic_mental_illness %>%
         select("dem_char",
                "none_2017",
                "none_2018")
     }
     
+    dem_df[[2]] <- sapply(dem_df[[2]],as.numeric)
+
+    combined <- melt(dem_df)
     
-    if (input$age == "18.25") {
-      dem_df <- dem_df %>%
-        filter(dem_df$dem_char == "18-25")
-    } else if (input$age == "26") {
-      dem_df <- dem_df %>%
-        filter(dem_df$dem_char == "26 or Older")
-    } else if (input$age == "26.49") {
-      dem_df <- dem_df %>%
-        filter(dem_df$dem_char == "26-49")
-    } else if (input$age == "50") {
-      dem_df <- dem_df %>%
-        filter(dem_df$dem_char == "50 or Older")
-    }
     
-    dem_df_flipped <- as.data.frame(t(dem_df))
-    setDT(dem_df_flipped, keep.rownames = TRUE)[]
-    dem_df_flipped <- dem_df_flipped %>%
-      filter(rn %in% c("Not Hispanic or Latino", "White",
-                                 "AIAN", "NHOPI",
-                                 "Asian", "Two or More Races",
-                                 "Hispanic or Latino"))
-    dem_df_flipped$V1 <- as.numeric(dem_df_flipped$V1)
-    
-    plotted <- ggplot(dem_df_flipped, aes(x = rn, y = V1)) +
-      geom_bar(stat = "identity", fill = "#9468bd") +
+    plotted <- ggplot(combined, aes(x=dem_char, y=value, fill = variable)) +
+      geom_bar(stat="identity", position = "dodge") +
       labs(
-        title = "Percentage of Service Usage based on Mental Illness Severity",
-        x = "Service Type",
-        y = "Percentage of Usage (%)") +
-      ylim(0, 100) 
+        title = "Percentage of Respondents with Varying Levels of Mental Illness Compared Across Ethnicities",
+        x = "Ethnic Group",
+        y = "Percentage of Respondents (%)",
+        fill = "Year") +
+      ylim(0, 100) + theme(axis.text.x = element_text(angle = 90))
     plotted <- ggplotly(plotted)
   })
 # -----------------------------------------------------
