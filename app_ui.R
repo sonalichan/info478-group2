@@ -33,7 +33,7 @@ introduction <- tabPanel(
       h3("Purpose"),
       p("The purpose of this project is to better understand how accessible care 
         for mental health is in the United States. Though originally our group 
-        wanted to focus on broad factors that affect one’s access to general 
+        wanted to focus on broad factors that affect one's access to general 
         healthcare, we found interesting research and data related specifically 
         to the breakdown of mental health care in the United States. We hope to 
         draw conclusions about mental health to hopefully reduce the stigma 
@@ -208,19 +208,45 @@ question_3 <- tabPanel(
                                  "Serious Mental Illness" = "serious",
                                  "Any Mental Illness Excluding Serious" = "exclude_serious",
                                  "No Mental Illness" = "none"),
-                  selected = "any"),
-      radioButtons("age", label = h4("Age Group"),
-                   choices = list("18-25" = "18.25",
-                                  "26 or Older" = "26",
-                                  "26-49" = "26.49",
-                                  "50 or Older" = "50"),
-                   selected = "18.25")
+                  selected = "any")
     ),        
     mainPanel(                
-      # typically where you place your plots + texts
-      # insert chart and/or text here -- the variable name NOT the code
-      plotlyOutput("dem_bar_chart")
-    )))
+      plotlyOutput("dem_bar_chart"),
+      h6("Make sure to press the 'Autoscale' button to see the differences better!")
+    )),
+  fluidRow(
+    column(12,
+           h3("Analysis")),
+    column(12,
+           p("This interactive bar chart focuses on the levels of mental health illness compared across different ethnic groups. Respondents are 
+             categorized into
+             'Not Hispanic or Latino', 'White', 'American Indian or Alaskan Native (AIAN)', 
+             'Native Hawaiian or Other Pacific Islander (NHOPI)',
+              'Asian', 'Two or More Races', and 'Hispanic or Latino'. 
+              You are able to filter by the levels of the respondents' reported mental illness,
+              including 'Any mental illess', 'Serious mental illness', 
+              'Any mental illness excluding serious', and 'No mental illness'.
+              These comparisons can hopefully shed some light on which ethnic groups are comfortable enough
+              to report the presence of mental illness in their lives, due to lack of stigma and many other
+              factors.")),
+    column(12,
+           p("For every one of the conditions indicating a presence of mental illness,
+              Asians have the least amount of respondents, while their percentage for the 'None'
+              category is the highest. This could be due to a variety of factors, but perpetuating stigma
+              surrounding mental health in different Asian cultures and placing importance on being the 
+              'Model Minority' may have a lot to do with why this is the case.")),
+    column(12,
+           p("On the other hand, respondents in the AIAN or Two or More Races categories generally report
+              the highest prevalence of mental health issues. In the case for AIAN, history of oppression, 
+              discrimination, and removal from traditional lands experienced by Native people has contributed 
+              to their significant representation among populations with high need for mental health care. They
+              have also been reported to categorize mental health differently than the standard US definition.")),
+    column(12,
+           p("Overall, all of these populations have high needs for mental healthcare, but this notion is expressed 
+              differently based on very personal factors. This graph can contribute to a visual understanding of 
+              the differences while allowing viewers to think about why the respondents are more than just numbers in
+              a data table.")
+              )))
 # ----------- CONCLUSION: SONALI ---------------
 conclusion <- tabPanel(
   "Conclusion / Sources",             #title of the page, what will appear as the tab name
