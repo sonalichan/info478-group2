@@ -19,7 +19,7 @@ introduction <- tabPanel(
   br(),
   sidebarLayout(             
     sidebarPanel( 
-      h4("Datasets"),
+      h4("Dataset"),
       h5(a("2018 National Survey on Drug Use and Health Detailed Tables (SAMHSA)",
            href = "https://www.samhsa.gov/data/report/2018-nsduh-detailed-tables")),
       p("The results of the 2018 National Survey on Drug Use and Health are 
@@ -104,18 +104,62 @@ introduction <- tabPanel(
     ))
 
 # ----------- Q1: JOHN-LUKE ---------------
-question_1 <- tabPanel(
-  "Mental Health Across the US",             #title of the page, what will appear as the tab name
-  titlePanel("How are mental health services being utilized across the United States?"),
-  br(),
-  sidebarLayout(             
-    sidebarPanel( 
-      # left side of the page 
-      # insert widgets or text here -- their variable name(s), NOT the raw code
-    ),           
-    mainPanel(                # typically where you place your plots + texts
-      # insert chart and/or text here -- the variable name NOT the code
-    )))
+question_1 <- 
+  tabPanel("Mental Health Across the US",
+    titlePanel("How are mental health services being utilized across the United States?"),
+    br(),
+      sidebarLayout(             
+        sidebarPanel( 
+          selectInput("region_severity", 
+                      label = h4("Severity of Mental Illness"),
+                      choices = list("Any Mental Illness" = "any",
+                                     "Serious Mental Illness" = "serious",
+                                     "Any Mental Illness Excluding Serious" = "exclude_serious",
+                                     "No Mental Illness" = "none"),
+                                     selected = "any")
+          ),           
+        mainPanel(
+          plotlyOutput("map"),
+          br(),
+          plotlyOutput("county_bar")
+        )
+    ),
+    fluidRow(
+      column(12,
+             h3("Analysis")),
+      column(12,
+             p("Through the interactive geographical visualization, we can 
+               observe the number of mental illnesses throughout the United 
+               States. By contrasting the interactive map with the bar chart 
+               visualizing the differences among county types we can make some 
+               interesting connections. The first being that, as expected, large 
+               metro makes up a large amount of the numbers, regardless of the 
+               percentage of mental illness. However, the mental health ratio 
+               (no mental illness divided by any mental illness) in the large 
+               metro is 0.89, and the mental health ratio of nonmetro is 0.78. 
+               A possible inference that could be made is that in a large 
+               metropolitan county there are more resources available. Regions 
+               that tend towards one trend, whether that be a tendency to more 
+               mental illness or less, will in general follow that trend in the 
+               other direction. In the same way, the Northeast region of the 
+               United States has the most people with a mental illness, but also 
+               one of the most people with no mental illness. A different 
+               approach that could be made with this observation is that the 
+               Northeast region utilizes mental health services the least. This 
+               could explain why the region has both a great number of people 
+               both with and without mental illness.")),
+      column(12,
+             p("Does a high mental health ratio infer an adequate or inadequate 
+             utilization of mental health services? It's difficult to come to a 
+             solid conclusion. Due to limitations of our dataset, our data is per 
+             geographical region rather than by state. This greatly broadened 
+             the scope of our data greater than we would have preferred. To 
+             further this research, we would find more precise data concerning 
+             each state. This would allow us to make deeper connections to other 
+             aspects of society that factor into the number of mental illnesses 
+             in the United States.")),
+      )
+    )
 
 # ----------- Q2: SAMANTHA ---------------
 question_2 <- tabPanel(
