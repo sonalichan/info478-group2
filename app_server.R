@@ -368,7 +368,7 @@ server <- function(input, output) {
         select("dem_char",
                "serious_2017",
                "serious_2018")
-    } else if (input$illness == "excluding") {
+    } else if (input$illness == "exclude_serious") {
       dem_df <- demographic_mental_illness %>%
         select("dem_char",
                "excluding_2017",
