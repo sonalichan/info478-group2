@@ -288,7 +288,7 @@ question_3 <- tabPanel(
     column(12,
            p("Overall, all of these populations have high needs for mental healthcare, but this notion is expressed 
               differently based on very personal factors. This graph can contribute to a visual understanding of 
-              the differences while allowing viewers to think about why the respondents are more than just numbers in
+              the differences while allowing viewers to think about how the respondents are more than just numbers in
               a data table.")
               )))
 # ----------- CONCLUSION: SONALI ---------------
@@ -297,20 +297,45 @@ conclusion <- tabPanel(
   titlePanel("Conclusion and Insights"),
   fluidRow(
     column(12, h3("Summary of Findings")),
-    column(12, p("** @sonali ** blah blah")),
+    column(12, p("Through our analyses, we generally found patterns in those with reported
+                 mental illness, such as their population density in the US and what ways the groups
+                 obtain some sort of care if they do. Many factors contribute to a specific person's 
+                 ability to obtain healthcare, such as the amount of healthcare services in their area,
+                 what types of solutions they want to seek, and how their personal culture affects their 
+                 desire to seek help in the first place.")),
+    column(12, p("From our first question, we can see that the majority of mental illness is reported in 
+                 large metro areas, which coincidentally is where the most variety of healthcare services are.
+                 This means that it is harder to report or treat those in rural areas of the US, and patients have to travel far
+                 in order to visit a mental health clinician as opposed to a regular doctor. The lack of access to mental health clinicians
+                 is a solid barrier for a lot of these geographically restricted populations.")),
+    column(12, p("From our second question, we can see that the type of insurance or ability to pay for mental health
+                 treatments varies greatly between patients. Those with no or limited coverage are still large parts of the population,
+                 but a lot of them are not able to afford any kind of mental health treatment when they need it. Even if respondents have 
+                 insurance, their insurance policies rarely will cover treatments related to mental health and only focus on physically-altering
+                 conditions. There is also a great variety of professionals that assist respondents with mental illnesses, from general practitioners to spiritual
+                 advisors, which shows our need to invest in a diverse array of professionals. Mental health can't be solved by one type of treatment, and people depend
+                 on different healing strategies to help.")),
+    column(12, p("From our third question, we can see that Asians in the US have the lowest reported percentage of respondents with mental illness, while 
+                 American Indian and Alaskan Native populations have the highest. These results are due to a variety of factors, such as social stigma, history
+                 of colonization, and socio-economic statuses among others. The presence of stigma prevents relying on others to fix one's mental issues, or prevents
+                 them from truly understanding their mental state at all. Being able to stop perpetuating these stigmas along with understanding the most effective way of 
+                 treating mental illnesses for cultural communities is very important in fixing this issue.")),
+    
     column(12, h3("Limitations")),
-    column(12, p("** @sonali ** add more here about the limitations of the data... along
-                 the lines:
-                 A challenge of data collection that is more specific to our 
+    column(12, p(" A challenge of data collection that is more specific to our 
                  project is a misrepresentation of the populations being 
                  surveyed. One factor of low healthcare access is often low 
                  connectivity and these groups might not be represented in the 
-                 data that is presented on online sources.")),
+                 data that is presented on online sources. Another issue might be the
+                 misrepresentation of certain aspects of the data; the percentages listed
+                 are representative of the surveyed population, but since it is difficult
+                 to disclose or understand the extent of one's mental illness, the trends
+                 shown here might not be consisitent with the current state of the US.")),
     column(12, p ("")),
     column(12, h3("Further Research")),
-    column(12, h5(a("Cohen Veteran’s Network’s America’s Mental Health 2018 Study",
+    column(12, h5(a("Cohen Veterans Network America Mental Health 2018 Study",
                     href = "https://www.cohenveteransnetwork.org/americasmentalhealth/"))),
-    column(12, p("Ketchum Analytics helped the Cohen Veteran’s Network and the 
+    column(12, p("Ketchum Analytics helped the Cohen Veterans Network and the 
                  National Council for Behavioral Health gain a better 
                  understanding of the current attitudes and access to mental 
                  health services for Americans. They took an online survey of 

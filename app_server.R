@@ -27,7 +27,7 @@ table8_33 <- read.csv("./data/table8_33_clean.csv", fileEncoding="UTF-8-BOM")[2:
 demographic_mental_illness <- read.csv("./data/table8_7_b.csv", fileEncoding="UTF-8-BOM")
 
 # ----------------------------------------
-
+table8_18 <- read.csv("./data/table8_18_clean.csv", fileEncoding="UTF-8-BOM")
 # ----------- CLEAN DATA -----------------
 
 #------------- JOHN-LUKE -----------------    
