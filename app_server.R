@@ -7,6 +7,9 @@ library(shiny)
 library(tidyr)
 library(data.table)
 library(scales)
+library("maps")
+library("mapdata")
+
 
 # ----------- READ IN DATA ---------------
 
@@ -27,6 +30,53 @@ dem_df <- data.frame()
 # ----------------------------------------
 
 # ----------- CLEAN DATA -----------------
+
+#------------- JOHN-LUKE -----------------    
+# Mental Illness by Region Chart
+regional_table <- 
+  table8_18[3:6,] %>% 
+  rename("region" = X, 
+         "any_mental_illness" = Any.Mental.Illness,
+         "serious_mental_illness" = Serious.Mental.Illness,
+         "any_mental_illness_excluding_serious_mental_illness" = Any.Mental.Illness.Excluding.Serious.Mental.Illness,
+         "no_mental_illness" = No.Mental.Illness,
+         "total" = Total)
+regional_table$any_mental_illness <- as.numeric(gsub(",","", regional_table$any_mental_illness))
+regional_table$serious_mental_illness <- as.numeric(gsub(",","", regional_table$serious_mental_illness))
+regional_table$any_mental_illness_excluding_serious_mental_illness <- as.numeric(gsub(",","", regional_table$any_mental_illness_excluding_serious_mental_illness))
+regional_table$no_mental_illness <- as.numeric(gsub(",","", regional_table$no_mental_illness))
+regional_table$total <- as.numeric(gsub(",","", regional_table$total))
+
+state_df <- data.frame("state" = c("alabama", "alaska", "arizona", "arkansas", "california", "colorado", "connecticut", "delaware", "florida", "georgia", "hawaii", "idaho", "illinois", "indiana", "iowa", "kansas", "kentucky", "louisiana", "maine", "maryland", "massachusetts", "michigan", "minnesota", "mississippi", "missouri", "montana", "nebraska", "nevada", "new hampshire", "new jersey", "new mexico", "new york", "north carolina", "north dakota", "ohio", "oklahoma", "oregon", "pennsylvania", "rhode island", "south carolina", "south dakota", "tennessee", "texas", "utah", "vermont", "virginia", "washington", "west virginia", "wisconsin", "wyoming"),
+                       "region" = c("South", "West", "West", "South", "West", "West", "Northeast", "South", "South", "South", "West", "West", "Midwest", "Midwest", "Midwest", "Midwest", "South", "South", "Northeast", "South", "Northeast", "Midwest", "Midwest", "South", "Midwest", "West", "Midwest", "West", "Northeast", "Northeast", "West", "Northeast", "South", "Midwest", "Midwest", "South", "West", "Northeast", "Northeast", "South", "Midwest", "South", "South", "West", "Northeast", "South", "West", "South", "Midwest", "West"))
+
+regional_table <- 
+  left_join(regional_table, state_df, by = "region") %>% 
+  rename("regions" = region, "region" = state)
+
+state_shape <- 
+  map_data("state") %>%
+  left_join(regional_table, by = "region")
+
+
+# County Type
+county_type <- 
+  table8_18[8:13,] %>%
+    rename("region" = X, 
+           "any_mental_illness" = Any.Mental.Illness,
+           "serious_mental_illness" = Serious.Mental.Illness,
+           "any_mental_illness_excluding_serious_mental_illness" = Any.Mental.Illness.Excluding.Serious.Mental.Illness,
+           "no_mental_illness" = No.Mental.Illness,
+           "total" = Total)
+county_type$any_mental_illness <- as.numeric(gsub(",","", county_type$any_mental_illness))
+county_type$serious_mental_illness <- as.numeric(gsub(",","", county_type$serious_mental_illness))
+county_type$any_mental_illness_excluding_serious_mental_illness <- as.numeric(gsub(",","", county_type$any_mental_illness_excluding_serious_mental_illness))
+county_type$no_mental_illness <- as.numeric(gsub(",","", county_type$no_mental_illness))
+county_type$total <- as.numeric(gsub(",","", county_type$total))
+  
+
+
+    
 
 # ----------- SAMANTHA -------------------
 
@@ -99,7 +149,129 @@ demographic_mental_illness$none_2017 <- as.numeric(gsub("a", "", demographic_men
 # ----------- DEFINE THE SERVER ---------------
 
 server <- function(input, output) {
+
+# ------------- JOHN-LUKE ---------------------
+  # Regional Map
+  blank_theme <- 
+    theme_bw() +
+      theme(
+        axis.line = element_blank(),        # remove axis lines
+        axis.text = element_blank(),        # remove axis labels
+        axis.ticks = element_blank(),       # remove axis ticks
+        axis.title = element_blank(),       # remove axis titles
+        plot.background = element_blank(),  # remove gray background
+        panel.grid.major = element_blank(), # remove major grid lines
+        panel.grid.minor = element_blank(), # remove minor grid lines
+        panel.border = element_blank()      # remove border around plot
+      )
   
+  output$map <- renderPlotly({
+    if(input$region_severity == "any")
+    {
+      ggplot(state_shape) +
+        geom_polygon(mapping = aes(x = long, y = lat, group = group, fill = any_mental_illness),
+                     color = "white", # show state outlines
+                     size = .1) +
+        coord_map() +
+        scale_fill_continuous(low = "#550000", high = "Red") +
+        labs(fill = "Number of People") +
+        blank_theme
+    }
+    else if(input$region_severity == "serious")
+    {
+      ggplot(state_shape) +
+        geom_polygon(mapping = aes(x = long, y = lat, group = group, fill = serious_mental_illness),
+                     color = "white", # show state outlines
+                     size = .1) +
+        coord_map() +
+        scale_fill_continuous(low = "#550000", high = "Red") +
+        labs(fill = "Number of People") +
+        blank_theme
+    }
+    else if(input$region_severity == "exclude_serious")
+    {
+      ggplot(state_shape) +
+        geom_polygon(mapping = aes(x = long, y = lat, group = group, fill = any_mental_illness_excluding_serious_mental_illness),
+                     color = "white", # show state outlines
+                     size = .1) +
+        coord_map() +
+        scale_fill_continuous(low = "#550000", high = "Red") +
+        labs(fill = "Number of People") +
+        blank_theme
+    }
+    else if(input$region_severity == "none")
+    {
+      ggplot(state_shape) +
+        geom_polygon(mapping = aes(x = long, y = lat, group = group, fill = no_mental_illness),
+                     color = "white", # show state outlines
+                     size = .1) +
+        coord_map() +
+        scale_fill_continuous(low = "#550000", high = "Red") +
+        labs(fill = "Number of People") +
+        blank_theme
+    }
+  })
+  
+  output$county_bar <- renderPlotly({
+    if(input$region_severity == "any")
+    {
+      ggplot(county_type, aes(x = region, y = any_mental_illness)) +
+        geom_col(fill = "#9468bd") +
+          theme_bw() +
+            theme(
+              axis.line = element_blank(),
+              axis.ticks = element_blank(),
+              axis.title = element_blank(),
+              plot.background = element_blank(),
+              panel.border = element_blank()
+            ) +
+              labs(title = "County Type")
+    }
+    else if(input$region_severity == "serious")
+    {
+      ggplot(county_type, aes(x = region, y = serious_mental_illness)) +
+        geom_col(fill = "#9468bd") +
+          theme_bw() +
+            theme(
+              axis.line = element_blank(),
+              axis.ticks = element_blank(),
+              axis.title = element_blank(),
+              plot.background = element_blank(),
+              panel.border = element_blank()
+            ) +
+              labs(title = "County Type")
+    }
+    else if(input$region_severity == "exclude_serious")
+    {
+      ggplot(county_type, aes(x = region, y = any_mental_illness_excluding_serious_mental_illness)) +
+        geom_col(fill = "#9468bd") +
+          theme_bw() +
+            theme(
+              axis.line = element_blank(),
+              axis.ticks = element_blank(),
+              axis.title = element_blank(),
+              plot.background = element_blank(),
+              panel.border = element_blank()
+            ) +
+              labs(title = "County Type")
+    }
+    else if(input$region_severity == "none")
+    {
+      ggplot(county_type, aes(x = region, y = no_mental_illness)) +
+        geom_col(fill = "#9468bd") +
+          theme_bw() +
+            theme(
+              axis.line = element_blank(),
+              axis.ticks = element_blank(),
+              axis.title = element_blank(),
+              plot.background = element_blank(),
+              panel.border = element_blank()
+            ) +
+              labs(title = "County Type")
+    }
+    
+  })
+
 #--------------- SAMANTHA ---------------------
   # Reason Frequency Bar Chart
   output$reason_frequency <- renderPlotly({
